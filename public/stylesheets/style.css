@@ -1,0 +1,147 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 30px 0 0 0;
+  padding: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #4387FC;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+a {
+  color: #00B7FF;
+}
+ 
+/* General Styling */
+input[type='text'] {
+  height: 40px;
+  border-radius: 5px;
+  width: 50%;
+  font-size: 30px;
+}
+
+form input[type='submit'] {
+  width: 140px;
+  height: 80px;
+  background-color: #32CD32;
+  border: 4px solid white;
+  color: white;
+  font-size: 28px;
+  border-radius: 10px;
+}
+
+.centered-header {
+  text-align: center;
+  font-size: 60px;
+  font-weight: bold;
+  color: white;
+  font-family: 'Source Code Pro';
+}
+
+/* Add on classes for jQuery*/
+.form-focused {
+  border: 3px solid #32CD32;
+}
+
+/*Navbar*/
+.navbar {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: #32CD32;
+  color: white;
+  height: 30px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid white;
+}
+
+.brand {
+  font-size: 18px;
+  color: white;
+  float: left;
+  margin-left: 20px;
+  padding: 2px;
+}
+
+/* Landing page*/
+
+.index-container {
+  height: 300px;
+  text-align: center;
+}
+
+.index-container:before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.index-form {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+}
+
+
+
+/* Restaurant Picker*/
+
+.container {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height: 100%;
+}
+
+.restaurant-list {
+  float: right;
+  right: 0px;
+  top: 0;
+  width: 33%;
+  height: 100%;
+  background-color: white;
+}
+
+.restaurant-list > ul {
+  list-style: none;
+}
+
+.restaurant-list li {
+  width: 80%;
+  height: 40px;
+  font-size: 20px;
+  background-color: #32CD32;
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  padding-top: 8px;
+  margin: 10px;
+}
+
+.restaurant-list ~ * {
+  margin-right: 33%;
+}
+
+
+.selection-area {
+  padding: 20px;
+  text-align: center;
+}
+
+.selection-area form {
+  margin-top: 100px;
+}
+
+.selection-area form input {
+  margin-bottom: 75px;
+}
+
+
+

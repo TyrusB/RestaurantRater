@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .container
+    .restaurant-list
+        
+    .selection-area
+      h1.centered-header Choose your Restaurant
+      | Use the search box to narrow your selection, or add a new restaurant if it's not in the list.
+      .restaurant-input
+        form.restaurant-form
+          input(type='text', name='restaurant_name')
+          br
+          input(type='submit', value='Go')
+  script(type='text/template' id='restaurant-data')
+    != templateNames
+  script(src='javascripts/restaurant_list.js')

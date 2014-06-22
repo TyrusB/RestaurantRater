@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1.centered-header Welcome to Rest-U-Rater!
+  .index-container
+    | Enter your email to start rating restaurants...  
+    form(name='email', method='get', action='/restaurants').index-form
+      input(type='text', name='email')
+  
+
