@@ -1,13 +1,14 @@
 doctype html
 html
   head
-    title Rest-U-Rater Restaurant Rating
+    title RestauRater Restaurant Rating
     link(href='http://fonts.googleapis.com/css?family=Source+Code+Pro:600', rel='stylesheet', type='text/css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='javascripts/jquery.min.js')
+    link(href='/stylesheets/style.css', rel='stylesheet', type='text/css')
+    script(src='/javascripts/jquery.js')
+    script(src='/javascripts/lodash.underscore.min.js')
     
   body
     .navbar
-      span.brand Rest-U-Rater
+      span.brand RestauRater
     block content
-    script(src='javascripts/site_effects.js')
+    script(src='/javascripts/site_effects.js')

@@ -42,6 +42,9 @@ form input[type='submit'] {
   font-family: 'Source Code Pro';
 }
 
+input[disabled='disabled'] {
+  opacity: 0.5;
+}
 /* Add on classes for jQuery*/
 .form-focused {
   border: 3px solid #32CD32;
@@ -123,8 +126,11 @@ form input[type='submit'] {
   border-radius: 10px;
   padding-top: 8px;
   margin: 10px;
+  border: 2px solid green;
 }
-
+.restaurant-list li:hover{
+  background-color: gold;
+}
 .restaurant-list ~ * {
   margin-right: 33%;
 }
@@ -143,5 +149,18 @@ form input[type='submit'] {
   margin-bottom: 75px;
 }
 
+/* Restaurant Rating page */
 
 
+.ratings-info {
+  float: right;
+  right: 0px;
+  top: 0;
+  width: 33%;
+  height: 100%;
+  background-color: white;
+}
+
+.ratings-info ~ * {
+  margin-right: 33%;
+}

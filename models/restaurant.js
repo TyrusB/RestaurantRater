@@ -4,6 +4,11 @@ var restaurantSchema = new mongoose.Schema(
   {
     name: String,
     ratings: {
+      overall: {
+        numRatings: Number,
+        avgScore: Number,
+        emails: [{email: String, rating: Number}]
+      }//,
       // taste: {
       //   numRatings: Number,
       //   avgScore: Number,
@@ -13,12 +18,7 @@ var restaurantSchema = new mongoose.Schema(
       //   numRatings: Number,
       //   avgScore: Number,
       //   emails: [{email: String, rating: Number}]
-      // },
-      overall: {
-        numRatings: Number,
-        avgScore: Number,
-        emails: [{email: String, rating: Number}]
-      }
+      // }
     }
   },
   { collection: "restaurants" }

@@ -8,10 +8,10 @@ block content
       h1.centered-header Choose your Restaurant
       | Use the search box to narrow your selection, or add a new restaurant if it's not in the list.
       .restaurant-input
-        form.restaurant-form
-          input(type='text', name='restaurant_name')
+        form(action='#', method='get').restaurant-form
+          input(type='text', name='restaurant_name', placeholder='Enter name or part of name...')#rest-input
           br
-          input(type='submit', value='Go')
+          input(type='submit', value='Go', disabled='disabled')#rest-submit
   script(type='text/template' id='restaurant-data')
     != templateNames
   script(src='javascripts/restaurant_list.js')

@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  .ratings-info
+    h2 Restaurant Ratings
+    h3 Overall
+      ul
+        li= avgScore
+        li Number of ratings: #{numRatings}
+  .all-ratings
+    h1.centered-header= name
+    .ratings-container
+      h2 Overall Rating
+      .slider
+  script(type='text/template', id='restaurantData')
+    != restaurantJSON
+
+  link(rel='stylesheet', type='text/css', href='/stylesheets/jquery-ui-1.10.4.custom.min.css')
+  script(src='/javascripts/jquery-ui-1.10.4.custom.min.js')
+  script(src='/javascripts/restaurant_show.js')
