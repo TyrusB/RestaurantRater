@@ -3,6 +3,15 @@ var router = express.Router();
 var Restaurant = require('../models/restaurant');
 var _ = require('../public/javascripts/lodash.underscore.min.js')
 
+/* Auth function - no persistent users, but we need their email via cookie */
+function isEmailCookieStored(req, res, next) {
+  if (req.cookies.email) {
+    next();
+  } else {
+    res.redirect('/');
+  }
+}
+
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('landing_page', { title: 'Express' });
@@ -16,7 +25,7 @@ router.post('/signin', function(req, res) {
 });
 
 /* GET restaurant index / selection page */
-router.get('/restaurants', function(req, res) {
+router.get('/restaurants', isEmailCookieStored, function(req, res) {
   var restNamesQuery = Restaurant
     .find({})
     .sort('name')
@@ -37,7 +46,7 @@ router.get('/restaurants', function(req, res) {
 });
 
 /* Restaurant show page */
-router.get('/restaurants/:id', function(req, res) {
+router.get('/restaurants/:id', isEmailCookieStored, function(req, res) {
   var restaurantQuery = Restaurant.findById(req.params.id)
 
   restaurantQuery.exec(function(err, restaurantData) {
@@ -60,7 +69,7 @@ router.get('/restaurants/:id', function(req, res) {
   });
 });
 
-router.post('/restaurants/new', function(req, res) {
+router.post('/restaurants/new', isEmailCookieStored, function(req, res) {
   var restaurantName = req.body.restaurant_name;
   restaurantName = restaurantName.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
   restaurant = new Restaurant({
@@ -84,6 +93,12 @@ router.post('/restaurants/new', function(req, res) {
 router.post('/restaurants/:id/ratings', function(req, res) {
   var userOverallRating = req.body.overallRating,
       userEmail = req.cookies.email;
+
+  /* If, somehow, the user has thwarted our auth attempts, send a 500 error*/
+  if (!userEmail) {
+    res.status(500);
+    res.send();
+  }
 
   var restaurantQuery = Restaurant.findById(req.params.id)
 
@@ -120,7 +135,6 @@ router.post('/restaurants/:id/ratings', function(req, res) {
       if (!err) {
         res.json(restaurant);
       } else {
-        console.log(err);
         res.status(500);
         res.send();
       }
