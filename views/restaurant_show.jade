@@ -1,36 +1,37 @@
 extends layout
 
 block content
-  .ratings-info
-    h2.ratings-info-header Restaurant Ratings
-    .ratings-info-section
-      h3 Overall
-      ul
-        li
-          span#avg-score #{avgScore}
-        li Number of ratings: 
-          span#num-ratings #{numRatings}
-  .all-ratings
-    h1.centered-header= name
-    .past-ratings-info
-      if userHasRated
-        span You've rated this restaurant. Feel free to change your rating.
-      else
-        span You haven't rated this restaurant yet.
-    .ratings-container
-      .rating-box
-        h2 Overall Rating
-        .slider
-        span.left-rating.rating-no 0 
-        span.right-rating.rating-no 5
-        .current-rating-container
-          span.current-rating Currently: 
-            span.current-rating-num 2.5
-      button#submit-ratings Save Ratings
-      br
-      a(href='/restaurants')
-        button.back-button Back
-  #slider-val(data-slider-val=overallRating)
+  .container
+    .ratings-info
+      h2.ratings-info-header Restaurant Ratings
+      .ratings-info-section
+        h3 Overall
+        ul
+          li
+            span#avg-score #{avgScore}
+          li Number of ratings: 
+            span#num-ratings #{numRatings}
+    .all-ratings
+      h1.centered-header= name
+      .past-ratings-info
+        if userHasRated
+          span You've rated this restaurant. Feel free to change your rating.
+        else
+          span You haven't rated this restaurant yet.
+      .ratings-container
+        .rating-box
+          h2 Overall Rating
+          .slider
+          span.left-rating.rating-no 0 
+          span.right-rating.rating-no 5
+          .current-rating-container
+            span.current-rating Currently: 
+              span.current-rating-num 2.5
+        button#submit-ratings Save Ratings
+        br
+        a(href='/restaurants')
+          button.back-button Back
+    #slider-val(data-slider-val=overallRating)
   script(type='text/template', id='restaurant-data')
     != restaurantJSON
 

@@ -35,6 +35,8 @@ form input[type='submit'] {
 }
 
 .centered-header {
+  margin-top: 20px;
+  padding-top: 20px;
   text-align: center;
   font-size: 60px;
   font-weight: bold;
