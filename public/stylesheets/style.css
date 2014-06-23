@@ -201,6 +201,18 @@ input[disabled='disabled'] {
   margin-top: 10px;
 }
 
+.current-rating {
+  font-size: 18px;
+}
+.current-rating-num {
+  color: gold;
+  font-weight: bold;
+  font-size: 24px;
+}
+.current-rating-container {
+  margin-top: 5px;
+}
+
 #submit-ratings {
   width: 140px;
   height: 80px;
