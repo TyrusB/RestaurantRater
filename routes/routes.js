@@ -53,14 +53,16 @@ router.get('/restaurants/:id', isEmailCookieStored, function(req, res) {
     if (!err) {
       var userEmail = req.cookies.email;
       var userHasRated = hasUserRatedYet(restaurantData, userEmail);
-      // var startingOverallRating = userHasRated ? findUserRating(restaurantData, "overall", userEmail) * 10 : 25;
-
+      var startingOverallRating = userHasRated ? findUserRating(restaurantData, "overall", userEmail) * 20 : 25;
+      
+      console.log(startingOverallRating);
       res.render('restaurant_show', { 
         restaurantJSON: JSON.stringify(restaurantData),
         name: restaurantData.name,
         avgScore: restaurantData.ratings.overall.avgScore || "Not Rated",
         numRatings: restaurantData.ratings.overall.numRatings || "0",
-        userHasRated: userHasRated
+        userHasRated: userHasRated,
+        overallRating: startingOverallRating
       });
 
     } else {
@@ -146,6 +148,20 @@ function hasUserRatedYet(restaurant, userEmail) {
   return _.any(restaurant.ratings.overall.emails, function(emailObj) {
     return emailObj.email === userEmail;
   });
+}
+
+function findUserRating(restaurant, ratingType, userEmail) {
+  var userRating;
+  _.find(restaurant["ratings"][ratingType]["emails"], function(emailObj) {
+    if (emailObj.email === userEmail) {
+      userRating = emailObj.rating;
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  return userRating;
 }
 
 

@@ -1,9 +1,10 @@
 $(function() {
-  var restaurant = JSON.parse($('#restaurant-data').html());
+  var restaurant = JSON.parse($('#restaurant-data').html())
+  var sliderVal = $('#slider-val').data('slider-val');
 
   $('.slider').slider({
     step: 10, 
-    value: 50,
+    value: (sliderVal || 50),
     change: function(event, ui) {
       var newRating = ui.value / 20;
       $('.current-rating-num').text(newRating);
@@ -18,6 +19,8 @@ $(function() {
     }
   });
 
+  $('.slider').slider({value: sliderVal});
+
   $('#submit-ratings').on('click', function(event) {
     event.preventDefault();
     var rating = $('.slider').slider('value') / 20;
@@ -31,5 +34,6 @@ $(function() {
         $('.past-ratings-info').find('span').text("You've rated this restaurant. Feel free to change your rating.");
       }
     })
-  })
+  });
+
 });
