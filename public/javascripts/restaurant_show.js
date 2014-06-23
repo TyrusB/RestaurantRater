@@ -28,6 +28,7 @@ $(function() {
       success: function(restaurant) {
         $('#avg-score').text(restaurant.ratings.overall.avgScore);
         $('#num-ratings').text(restaurant.ratings.overall.numRatings);
+        $('.past-ratings-info').find('span').text("You've rated this restaurant. Feel free to change your rating.");
       }
     })
   })

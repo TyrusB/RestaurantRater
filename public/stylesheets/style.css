@@ -187,7 +187,11 @@ input[disabled='disabled'] {
   padding: 5px 15px 20px 15px;
 }
 
-.slider {
+.past-ratings-info {
+  text-align: center;
+  color: white;
+  font-family: "Source Code Pro";
+  font-size: 20px;
 }
 
 .left-rating {

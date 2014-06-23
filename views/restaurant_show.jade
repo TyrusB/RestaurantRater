@@ -12,6 +12,11 @@ block content
           span#num-ratings #{numRatings}
   .all-ratings
     h1.centered-header= name
+    .past-ratings-info
+      if userHasRated
+        span You've rated this restaurant. Feel free to change your rating.
+      else
+        span You haven't rated this restaurant yet.
     .ratings-container
       .rating-box
         h2 Overall Rating
