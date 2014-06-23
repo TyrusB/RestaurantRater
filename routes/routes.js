@@ -38,10 +38,9 @@ router.get('/restaurants', function(req, res) {
 
 /* Restaurant show page */
 router.get('/restaurants/:id', function(req, res) {
-  var restaurantQuery = Restaurant.find({_id: req.params.id})
+  var restaurantQuery = Restaurant.findById(req.params.id)
 
   restaurantQuery.exec(function(err, restaurantData) {
-    var restaurantData = restaurantData[0]
     if (!err) {
       var userEmail = req.cookies.email;
       var userHasRated = hasUserRatedYet(restaurantData, userEmail);
@@ -83,28 +82,38 @@ router.post('/restaurants/new', function(req, res) {
 });
 
 router.post('/restaurants/:id/ratings', function(req, res) {
-  var overallRating = req.body.overallRating,
+  var userOverallRating = req.body.overallRating,
       userEmail = req.cookies.email;
 
   var restaurantQuery = Restaurant.findById(req.params.id)
 
   restaurantQuery.exec(function(err, restaurant) {
+    /* Two paths: either user is one of the ratings, or not */
     userHasRated = hasUserRatedYet(restaurant, userEmail);
-    var oldOverallAvgScore = restaurant.ratings.overall.avgScore || 0,
-        oldOverallNumRatings = restaurant.ratings.overall.numRatings || 0;
 
+    var overallRatings = restaurant.ratings.overall
+
+    /* If the user's rated already, then we need to adjust the score*/
     if (userHasRated) {
-      var oldOverallRating = findUserRating(restaurant, "overall", userEmail);
-      setUserRatings(restaurant, userEmail, overallRating);
+      var priorOverallRating;
 
-      var totalScore = oldOverallAvgScore * oldOverallNumRatings;
-      var totalScore = totalScore - oldOverallRating + overallRating;
-      restaurant.ratings.overall.avgScore = totalScore / oldOverallNumRatings;
+      /* Go through emails, recording the old score and then changing it*/
+      _.each(overallRatings.emails, function(emailObj) {
+        if (emailObj.email === userEmail) {
+          priorOverallRating = emailObj.rating;
+          emailObj.rating = userOverallRating;
+        }
+      });
+      /* Adjust the meta-data */
+      overallRatings.avgScore = (overallRatings.avgScore * overallRatings.numRatings - priorOverallRating + userOverallRating) / overallRatings.numRatings
 
+    /* Otherwise we need to add to it */
     } else {
-      restaurant.ratings.overall.numRatings = (restaurant.ratings.overall.numRatings || 0) + 1;
-      restaurant.ratings.overall.avgScore = (oldOverallAvgScore + overallRating) / (oldOverallNumRatings + 1);
-      restaurant.ratings.overall.emails.push({ "email": userEmail, "rating": overallRating});
+      var scoreSum = overallRatings.avgScore * overallRatings.numRatings;
+      overallRatings.numRatings += 1;
+
+      overallRatings.avgScore = (scoreSum + userOverallRating) / overallRatings.numRatings;
+      overallRatings.emails.push( {"email": userEmail, "rating": userOverallRating} )
     }
 
     restaurant.save(function(err, restaurant) {
@@ -125,28 +134,5 @@ function hasUserRatedYet(restaurant, userEmail) {
   });
 }
 
-/* Note - use _.find to short circuit search, cutting off when value is found */
-function findUserRating(restaurant, ratingType, userEmail) {
-  var rating;
-  _.find(restaurant["ratings"][ratingType]["emails"], function(emailObj) {
-    if (emailObj.email === userEmail) {
-      rating = emailObj.score;
-      return true;
-    }
-    return false;
-  });
-
-  return rating;
-}
-
-function setUserRatings(restaurant, userEmail, userScore) {
-  _.find(restaurant.ratings.overall.emails, function(emailObj) {
-    if (emailObj.email === userEmail) {
-      emailObj.score = userScore;
-      return true;
-    }
-    return false;
-  })
-}
 
 module.exports = router;

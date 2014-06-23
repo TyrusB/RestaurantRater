@@ -5,7 +5,7 @@ $(function() {
 
   $('#submit-ratings').on('click', function(event) {
     event.preventDefault();
-    var rating = $('.slider').slider('value') / 10;
+    var rating = $('.slider').slider('value') / 20;
     $.ajax({
       url: '/restaurants/' + restaurant._id + '/ratings',
       method: 'post',
