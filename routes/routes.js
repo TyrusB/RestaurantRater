@@ -53,7 +53,7 @@ router.get('/restaurants/:id', isEmailCookieStored, function(req, res) {
     if (!err) {
       var userEmail = req.cookies.email;
       var userHasRated = hasUserRatedYet(restaurantData, userEmail);
-      var startingOverallRating = userHasRated ? findUserRating(restaurantData, "overall", userEmail) * 20 : 25;
+      var startingOverallRating = userHasRated ? findUserRating(restaurantData, "overall", userEmail) * 20 : 50;
       
       console.log(startingOverallRating);
       res.render('restaurant_show', { 
@@ -122,14 +122,13 @@ router.post('/restaurants/:id/ratings', function(req, res) {
         }
       });
       /* Adjust the meta-data */
-      overallRatings.avgScore = (overallRatings.avgScore * overallRatings.numRatings - priorOverallRating + userOverallRating) / overallRatings.numRatings
+      overallRatings.avgScore = (overallRatings.avgScore * overallRatings.numRatings - priorOverallRating + parseFloat(userOverallRating)) / overallRatings.numRatings
 
     /* Otherwise we need to add to it */
     } else {
       var scoreSum = overallRatings.avgScore * overallRatings.numRatings;
       overallRatings.numRatings += 1;
-
-      overallRatings.avgScore = (scoreSum + userOverallRating) / overallRatings.numRatings;
+      overallRatings.avgScore = (scoreSum + parseFloat(userOverallRating)) / overallRatings.numRatings;
       overallRatings.emails.push( {"email": userEmail, "rating": userOverallRating} )
     }
 
@@ -137,6 +136,7 @@ router.post('/restaurants/:id/ratings', function(req, res) {
       if (!err) {
         res.json(restaurant);
       } else {
+        console.log(err);
         res.status(500);
         res.send();
       }
