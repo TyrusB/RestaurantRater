@@ -6,9 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 /* Database*/
+var uristring = process.env.MONGOHQ_URL || 'mongodb://localhost/restrater';
+
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-var db = mongoose.connect('mongodb://localhost/restrater');
+var db = mongoose.connect(uristring);
 
 
 /* Routes */
