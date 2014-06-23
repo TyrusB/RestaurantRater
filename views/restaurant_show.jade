@@ -2,17 +2,24 @@ extends layout
 
 block content
   .ratings-info
-    h2 Restaurant Ratings
-    h3 Overall
+    h2.ratings-info-header Restaurant Ratings
+    .ratings-info-section
+      h3 Overall
       ul
-        li= avgScore
-        li Number of ratings: #{numRatings}
+        li
+          span#avg-score #{avgScore}
+        li Number of ratings: 
+          span#num-ratings #{numRatings}
   .all-ratings
     h1.centered-header= name
     .ratings-container
-      h2 Overall Rating
-      .slider
-  script(type='text/template', id='restaurantData')
+      .rating-box
+        h2 Overall Rating
+        .slider
+        span.left-rating.rating-no 0 
+        span.right-rating.rating-no 5
+      button#submit-ratings Save Ratings
+  script(type='text/template', id='restaurant-data')
     != restaurantJSON
 
   link(rel='stylesheet', type='text/css', href='/stylesheets/jquery-ui-1.10.4.custom.min.css')

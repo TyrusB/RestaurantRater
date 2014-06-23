@@ -6,9 +6,12 @@ block content
         
     .selection-area
       h1.centered-header Choose your Restaurant
-      | Use the search box to narrow your selection, or add a new restaurant if it's not in the list.
       .restaurant-input
         form(action='#', method='get').restaurant-form
+          .directions 
+            | Use the search box to narrow your selection ---
+            br
+            | or add a new restaurant if it's not in the list.
           input(type='text', name='restaurant_name', placeholder='Enter name or part of name...')#rest-input
           br
           input(type='submit', value='Go', disabled='disabled')#rest-submit

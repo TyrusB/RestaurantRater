@@ -2,9 +2,9 @@ extends layout
 
 block content
   h1.centered-header Welcome to Rest-U-Rater!
+  span.email-instructions Enter your email to begin
   .index-container
-    | Enter your email to start rating restaurants...  
-    form(name='email', method='post', action='/signin').index-form
+    form(name='email', method='post', action='/signin').index-form  
       input(type='text', name='email', placeholder='your_email@example.com')
   
 
