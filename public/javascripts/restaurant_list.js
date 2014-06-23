@@ -53,7 +53,7 @@ $(function() {
     var selectedRestaurant = _.find(restaurants, function(restaurant) {
       return restaurant.name.toLowerCase() === input.toLowerCase();
     });
-    /* Different routes depending on whether restaurant exists or not */
+    /* Different actions depending on whether restaurant exists or not */
     if (selectedRestaurant) {
       $(this).attr('action', '/restaurants/' + selectedRestaurant._id).attr('method', 'get');
     } else {

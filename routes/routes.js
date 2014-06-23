@@ -29,7 +29,7 @@ router.get('/restaurants', isEmailCookieStored, function(req, res) {
   var restNamesQuery = Restaurant
     .find({})
     .sort('name')
-    .select('name');
+    .select('name'); /* We only need the names and id's for the index */
 
   restNamesQuery.exec(function(err, names) {
     if (!err) {
@@ -39,7 +39,6 @@ router.get('/restaurants', isEmailCookieStored, function(req, res) {
       var templateNames = JSON.stringify(names);
       res.render('restaurant_index', {names: restNames, templateNames: templateNames});
     } else {
-      // render an error
       res.render('error');
     }
   })
@@ -64,13 +63,13 @@ router.get('/restaurants/:id', isEmailCookieStored, function(req, res) {
         userHasRated: userHasRated,
         overallRating: startingOverallRating
       });
-
     } else {
       res.render('error');
     }
   });
 });
 
+/* Restaurant Create Action*/
 router.post('/restaurants/new', isEmailCookieStored, function(req, res) {
   var restaurantName = req.body.restaurant_name;
   restaurantName = restaurantName.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -92,6 +91,7 @@ router.post('/restaurants/new', isEmailCookieStored, function(req, res) {
   });
 });
 
+/* Ratings Create/Update action */
 router.post('/restaurants/:id/ratings', function(req, res) {
   var userOverallRating = req.body.overallRating,
       userEmail = req.cookies.email;
@@ -105,7 +105,7 @@ router.post('/restaurants/:id/ratings', function(req, res) {
   var restaurantQuery = Restaurant.findById(req.params.id)
 
   restaurantQuery.exec(function(err, restaurant) {
-    /* Two paths: either user is one of the ratings, or not */
+    /* Two paths: either create or update existing rating */
     userHasRated = hasUserRatedYet(restaurant, userEmail);
 
     var overallRatings = restaurant.ratings.overall
@@ -152,6 +152,7 @@ function hasUserRatedYet(restaurant, userEmail) {
 
 function findUserRating(restaurant, ratingType, userEmail) {
   var userRating;
+  /* Using find to end search when we've found what we're looking for*/
   _.find(restaurant["ratings"][ratingType]["emails"], function(emailObj) {
     if (emailObj.email === userEmail) {
       userRating = emailObj.rating;

@@ -2,6 +2,7 @@ $(function() {
   var restaurant = JSON.parse($('#restaurant-data').html())
   var sliderVal = $('#slider-val').data('slider-val');
 
+  /* Initialize slider, and set change handler*/
   $('.slider').slider({
     step: 10, 
     value: (sliderVal || 50),
@@ -18,9 +19,10 @@ $(function() {
       }
     }
   });
-
+  /* Set our initial value (need to do this again to trigger change event) */
   $('.slider').slider({value: sliderVal});
 
+  /* Submitting our ratings sends an ajax request */
   $('#submit-ratings').on('click', function(event) {
     event.preventDefault();
     var rating = $('.slider').slider('value') / 20;
