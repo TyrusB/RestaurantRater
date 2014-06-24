@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Restaurant = require('../models/restaurant');
-var _ = require('../public/javascripts/lodash.underscore.min.js')
+var _ = require('../public/javascripts/vendor/lodash.underscore.min.js')
 
 /* Auth function - no persistent users, but we need their email via cookie */
 function isEmailCookieStored(req, res, next) {
@@ -53,9 +53,9 @@ router.get('/restaurants/:id', isEmailCookieStored, function(req, res) {
       var userEmail = req.cookies.email;
       var userHasRated = hasUserRatedYet(restaurantData, userEmail);
       var startingOverallRating = userHasRated ? findUserRating(restaurantData, "overall", userEmail) * 20 : 50;
-      
+
       console.log(startingOverallRating);
-      res.render('restaurant_show', { 
+      res.render('restaurant_show', {
         restaurantJSON: JSON.stringify(restaurantData),
         name: restaurantData.name,
         avgScore: restaurantData.ratings.overall.avgScore || "Not Rated",

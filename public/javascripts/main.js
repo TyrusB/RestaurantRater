@@ -8,7 +8,7 @@ require.config({
     /* No need to require jQuery, it's a dependency of jQueryUi which can be imported in it's place*/
     'jQueryUI': {
       deps: ['jQuery'],
-      exports: '$' 
+      exports: '$'
     },
     'lodash': {
       exports: '_'
@@ -16,6 +16,6 @@ require.config({
   }
 })
 
-require(["lodash", "jQuery"], function('_') {
-
+require(["restaurant_index"], function(restaurantIndex) {
+  restaurantIndex.initialize();
 })
