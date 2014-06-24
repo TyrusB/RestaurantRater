@@ -15,3 +15,7 @@ require.config({
     }
   }
 })
+
+require(["lodash", "jQuery"], function('_') {
+
+})

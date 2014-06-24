@@ -1,40 +1,39 @@
+require([])
+
 $(function() {
 
-  /* Want to build up our list of restaurants*/
+  /* Section: initializing restaurant list on page load */
   var restaurants = JSON.parse($('#restaurant-data').html());
-  var $restHolder = $('<ul class="restaurant-holder"></ul>');
-
-  restaurants.forEach(function(restaurant) {
-    buildLiFromRestaurant(restaurant, $restHolder)
-  });
-
-  $restHolder.appendTo($('.restaurant-list'));
+  var $restaurantList = createRestaurantList(restaurants);
+  $restaurantList.appendTo($('.restaurant-list'));
 
 
-  /* Handle searching */
-  $('input[name=restaurant_name]').on('keyup', function() {
-    handleActivationStatusOfSubmit();
-   
-    var entered = $('#rest-input').val();
-    /* First, empty the list */
-    $('.restaurant-holder').empty();
-    /* Next, change the go button to add*/
+  /* Section: searching */
+  $('input[name=restaurant_name]').on('keyup', function() {   
+     var entered = $('#rest-input').val();
+
+    clearRestaurantList();
     $('.restaurant-form').find('input[type=submit]').attr('value', 'Add').css('background-color', 'red');
     
-    restaurants.forEach(function(restaurant) {
-      /* If the restaurant name contains the entered text, add it to the list*/
-      if (restaurant.name.toLowerCase().indexOf(entered.toLowerCase()) !== -1) {
-        buildLiFromRestaurant(restaurant, $restHolder);
+    var matchingRestaurants = _.filter(restaurants, function(restaurant) { 
+      return restaurant.name.toLowerCase().indexOf(entered.toLowerCase()) !== -1;
+    });
+    
+    _.each(matchingRestaurants, function(restaurant) {
+      buildLiFromRestaurant(restaurant, $restaurantList)
 
-        /* If the name is an exact match, change the add button to go*/
-        if (restaurant.name.toLowerCase() === entered.toLowerCase()) {
-          $('.restaurant-form').find('input[type=submit]').attr('value', 'Go').css('background-color', '#32CD32');
-        }
+      /* Change the add button to go if a match is found*/
+      if (restaurant.name.toLowerCase() === entered.toLowerCase()) {
+        $('.restaurant-form').find('input[type=submit]').attr('value', 'Go').css('background-color', '#32CD32');
       }
     });
+
+    /* Finally, determine whether or not the button is active */
+    handleActivationStatusOfSubmit();
   });
 
-  /* Use event delegation to handle clicking on the restaurant list*/
+
+  /* Section for handling a click on restaurant list li */
   $('.restaurant-list').on('click', 'li', function() {
     var name = $(this).text(),
         id = $(this).data('id');
@@ -47,7 +46,7 @@ $(function() {
   });
 
 
-  /* Handle form submission */
+  /* Section: form submission */
   $('.restaurant-form').on('submit', function(event) {
     var input = $(this).find('#rest-input').val()
     var selectedRestaurant = _.find(restaurants, function(restaurant) {
@@ -64,6 +63,12 @@ $(function() {
   })
 });
 
+/* Helper functions */
+
+function clearRestaurantList() {
+  $('.restaurant-holder').empty();
+}
+
 function handleActivationStatusOfSubmit() {
   var $subButton = $('#rest-submit');
   var entered = $('#rest-input').val();
@@ -79,4 +84,14 @@ function handleActivationStatusOfSubmit() {
 function buildLiFromRestaurant(restaurant, ul) {
   var $restLi = $('<li data-id="' + restaurant._id +'">' + restaurant.name + '</li>')
   ul.append($restLi);
+}
+
+function createRestaurantList(restaurants) {
+  var $restHolder = $('<ul class="restaurant-holder"></ul>');
+
+  restaurants.forEach(function(restaurant) {
+    buildLiFromRestaurant(restaurant, $restHolder)
+  });
+
+  return $restHolder;
 }
