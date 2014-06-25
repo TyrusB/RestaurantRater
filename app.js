@@ -4,6 +4,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var compression = require('compression');
 
 /* Database*/
 var uristring = process.env.MONGOHQ_URL || 'mongodb://localhost/restrater';
@@ -12,11 +13,13 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var db = mongoose.connect(uristring);
 
-
 /* Routes */
 var routes = require('./routes/routes');
 
 var app = express();
+
+/* Setting up asset compression */
+app.use(compression());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', routes);
 
