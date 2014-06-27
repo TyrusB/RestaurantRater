@@ -2,7 +2,7 @@ extends layout
 
 block content
   .container
-    .restaurant-list
+    #restaurants-list
         
     .selection-area
       h1.centered-header Choose your Restaurant
@@ -15,5 +15,5 @@ block content
           input(type='text', name='restaurant_name', placeholder='Enter name or part of name...')#rest-input
           br
           input(type='submit', value='Go', disabled='disabled')#rest-submit
-  script(type='text/template' id='restaurant-data')
+  script(type='text/template' id='restaurants-data')
     != templateNames
