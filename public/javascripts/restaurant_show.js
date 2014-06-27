@@ -7,34 +7,21 @@ $(function() {
 
     /**/
 
-    /* Initialize slider, and set change handler*/
+    /* Grab any bootstrapped slider data and initialize the slider*/
     var sliderVal = $('#slider-val').data('slider-val');
 
-    $('.slider').slider({
-      step: 10, 
-      value: (sliderVal || 50),
-      change: function(event, ui) {
-        var newRating = ui.value / 20;
-        $('.current-rating-num').text(newRating);
+    var $sliderEl = $('.slider'),
+        $ratingEl = $('.current-rating-num');
 
-        if (newRating < 2) {
-          $('.current-rating-num').css('color', 'red');
-        } else if (newRating >= 3.5) {
-          $('.current-rating-num').css('color', 'green');
-        } else {
-          $('.current-rating-num').css('color', 'gold');
-        }
-      }
-    });
-    /* Set our initial value (need to do this again to trigger change event) */
-    $('.slider').slider({value: sliderVal});
+    var slider = new Slider($sliderEl, $ratingEl);
+    slider.init(sliderVal);
 
     /**/
 
     /* Submitting our ratings sends an ajax request */
     $('#submit-ratings').on('click', function(event) {
       event.preventDefault();
-      var rating = $('.slider').slider('value') / 20;
+      var rating = slider.getValue();
       
       restaurant.submitRating(rating, $('.ratings-info-section'));
     });
