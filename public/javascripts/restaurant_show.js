@@ -1,31 +1,42 @@
-$(function() {
+var restaurantShow = {
+  loadIfShowPage: function() {
+    if ($('#restaurant-data').length > 0) {
+      var restaurantData = JSON.parse($('#restaurant-data').html())
+      this.init(restaurantData);
+    }
+  },
 
-  if ($('#restaurant-data').length > 0) {
-
-    var restaurantData = JSON.parse($('#restaurant-data').html())
+  init: function(restaurantData) {
     var restaurant = new Restaurant(restaurantData);
 
-    /**/
+    var slider = this.initializeSlider();
 
-    /* Grab any bootstrapped slider data and initialize the slider*/
+    $('#submit-ratings').on('click', {slider: slider, restaurant: restaurant}, this.handleRatingSubmission);
+  },
+
+  initializeSlider: function() {
     var sliderVal = $('#slider-val').data('slider-val');
 
     var $sliderEl = $('.slider'),
         $ratingEl = $('.current-rating-num');
 
     var slider = new Slider($sliderEl, $ratingEl);
+
     slider.init(sliderVal);
 
-    /**/
+    return slider;
+  },
 
-    /* Submitting our ratings sends an ajax request */
-    $('#submit-ratings').on('click', function(event) {
-      event.preventDefault();
-      var rating = slider.getValue();
-      
-      restaurant.submitRating(rating, $('.ratings-info-section'));
-    });
-
+  handleRatingSubmission: function(event) {
+    event.preventDefault();
+    var slider = event.data.slider,
+        restaurant = event.data.restaurant;
+    var rating = slider.getValue();
+    
+    restaurant.submitRating(rating, $('.ratings-info-section'));
   }
+}
 
+$(function() {
+  restaurantShow.loadIfShowPage();
 });

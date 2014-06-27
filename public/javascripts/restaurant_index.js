@@ -10,24 +10,24 @@ var restaurantIndex = {
 
   init: function(restaurantsData) {
     var restaurants = new Restaurants(restaurantsData);
-    this.restaurants = restaurants;
 
     /* Build up the Restaurant list*/
     var restaurantList = restaurants.buildList();
     restaurantList.appendTo($('#restaurants-list'));
 
     /* initialize events on search bar */
-    $('input[name=restaurant_name]').on('keyup', this.handleSearchInput.bind(this, restaurants));
+    $('input[name=restaurant_name]').on('keyup', restaurants, this.handleSearchInput);
 
     /* Initialize events on restaurant list (use event delegation) */
     $('#restaurants-list').on('click', 'li', this.handleRestaurantClick);
 
     /* Initialize events on form */
-    $('.restaurant-form').on('submit', this.handleFormSubmission);
+    $('.restaurant-form').on('submit', restaurants, this.handleFormSubmission);
   },
 
-  handleSearchInput: function(restaurants) {
+  handleSearchInput: function(event) {
     var entered = $('#rest-input').val();
+    var restaurants = event.data;
 
     /* Build up and attach new list */
     var matches = restaurants.searchNames(entered);
@@ -46,7 +46,7 @@ var restaurantIndex = {
     handleActivationStatusOfSubmit();
   },
 
-  handleRestaurantClick: function() {
+  handleRestaurantClick: function(event) {
     var name = $(this).text(),
         id = $(this).data('id');
 
@@ -57,8 +57,9 @@ var restaurantIndex = {
     handleActivationStatusOfSubmit();
   },
 
-  handleFormSubmission: function() {
+  handleFormSubmission: function(event) {
     var input = $(this).find('#rest-input').val();
+    var restaurants = event.data;
 
     /* Different actions depending on whether restaurant exists or not */
     if (restaurants.exactNameMatch(input)) {
