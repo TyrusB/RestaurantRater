@@ -133,7 +133,7 @@ input[disabled='disabled'] {
   height: 100%;
 }
 
-.restaurant-list {
+#restaurants-list {
   float: right;
   right: 0px;
   top: 0;
@@ -143,11 +143,11 @@ input[disabled='disabled'] {
   overflow-y: hidden;
 }
 
-.restaurant-list > ul {
+#restaurants-list > ul {
   list-style: none;
 }
 
-.restaurant-list li {
+#restaurants-list li {
   width: 80%;
   height: 40px;
   font-size: 20px;
@@ -159,10 +159,10 @@ input[disabled='disabled'] {
   margin: 10px;
   border: 2px solid green;
 }
-.restaurant-list li:hover{
+#restaurants-list li:hover{
   background-color: gold;
 }
-.restaurant-list ~ * {
+#restaurants-list ~ * {
   margin-right: 33%;
 }
 

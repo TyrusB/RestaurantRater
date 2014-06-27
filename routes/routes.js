@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Restaurant = require('../models/restaurant');
-var _ = require('../public/javascripts/lodash.underscore.min.js')
+var _ = require('../public/javascripts/vendor/lodash.underscore.min.js')
 
 /* Auth function - no persistent users, but we need their email via cookie */
 function isEmailCookieStored(req, res, next) {

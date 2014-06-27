@@ -3,11 +3,11 @@ function Restaurant(attrs) {
 }
 
 Restaurant.prototype.buildLi = function() {
-  var tagString = '<li data-id="' + restaurant._id + '"';
-  if (this.ratings.overall.avgScore) {
+  var tagString = '<li data-id="' + this._id + '"';
+  if (this.ratings && this.ratings.overall.avgScore) {
     tagString += 'data-avg-overall="' + this.ratings.overall.avgScore + '"';
   }
-  tagString += '>' + restaurant.name + '</li>';
+  tagString += '>' + this.name + '</li>';
 
   return $(tagString);
 }

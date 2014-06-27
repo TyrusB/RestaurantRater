@@ -1,9 +1,10 @@
 function Restaurants(restaurants) {
   this.models = [];
 
+  var collection = this;
   _.each(restaurants, function(restaurant) {
     var newRestaurant = new Restaurant(restaurant)
-    this.models.push(restaurant);
+    collection.models.push(newRestaurant);
   });
 }
 
@@ -13,8 +14,8 @@ Restaurants.prototype.buildList = function(restaurants) {
     restaurants = this.models;
   }
 
-  var $restaurantHolder = $('<ul class="restaurant-holder"></ul>');
-  _.each(this.models, function(restaurant) {
+  var $restaurantHolder = $('<ul id="restaurants-holder"></ul>');
+  _.each(restaurants, function(restaurant) {
     var restaurantLi = restaurant.buildLi();
     $restaurantHolder.append(restaurantLi);
   })
@@ -42,7 +43,9 @@ Restaurants.prototype.exactNameMatch = function(str) {
 }
 
 Restaurants.prototype.findRestaurant = function(nameStr) {
-  _.find(this.models, function(restaurant) {
-    return restaurant.name.toLowerCase() === nameStr.toLowerCase();
+  return _.find(this.models, function(restaurant) {
+    if (restaurant.name.toLowerCase() === nameStr.toLowerCase()) {
+      return restaurant;
+    }
   })
 }
