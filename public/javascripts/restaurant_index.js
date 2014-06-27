@@ -23,9 +23,9 @@ $(function() {
 
 
     /* Handle our buttons */
-    if (restaurants.exactNameMatch(entered) {
+    if (restaurants.exactNameMatch(entered)) {
       $('.restaurant-form').find('input[type=submit]').attr('value', 'Go').css('background-color', '#32CD32');
-    }) else {
+    } else {
       $('.restaurant-form').find('input[type=submit]').attr('value', 'Add').css('background-color', 'red');
     }
 
